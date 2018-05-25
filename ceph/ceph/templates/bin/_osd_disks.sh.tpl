@@ -57,6 +57,9 @@ function osd_disks {
     OSD_DEV="/dev/$(echo ${OSD_DISK}|sed 's/\(.*\):\(.*\)/\2/')"
 
     if [[ "$(parted --script ${OSD_DEV} print | egrep '^ 1.*ceph data')" ]]; then
+      # parted will trigger udev, so make sure all current udev event be handled.
+      udevadm settle --timeout=600 && partprobe ${OSD_DEV} && \
+        udevadm settle --timeout=600
       if [[ ${OSD_FORCE_ZAP} -eq 1 ]]; then
         ceph-disk -v zap ${OSD_DEV}
       else

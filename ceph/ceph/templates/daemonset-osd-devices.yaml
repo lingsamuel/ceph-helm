@@ -123,6 +123,9 @@ spec:
               mountPath: /var/lib/ceph/bootstrap-rgw/ceph.keyring
               subPath: ceph.keyring
               readOnly: true
+            - name: run-udev
+              mountPath: /run/udev
+              readOnly: false
           securityContext:
             privileged: true
           env:
@@ -230,6 +233,9 @@ spec:
               mountPath: /var/lib/ceph/bootstrap-rgw/ceph.keyring
               subPath: ceph.keyring
               readOnly: true
+            - name: run-udev
+              mountPath: /run/udev
+              readOnly: false
           env:
             - name: CEPH_DAEMON
               value: osd_ceph_disk_activate
@@ -304,6 +310,9 @@ spec:
         - name: ceph-bootstrap-rgw-keyring
           secret:
             secretName: {{ $.Values.secrets.keyrings.rgw }}
+        - name: run-udev
+          hostPath:
+            path: /run/udev
 {{ end }}
 {{ end }}
 {{ end }}
