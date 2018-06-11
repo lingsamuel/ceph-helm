@@ -60,7 +60,7 @@ get_mon_config $IP_VERSION
 chown ceph. /var/log/ceph
 
 # If we don't have a monitor keyring, this is a new monitor
-if [ ! -e "$MON_DATA_DIR/keyring" ]; then
+if [[ (! -e "${MON_DATA_DIR}/keyring") && (! -e "${MON_DATA_DIR}/done") ]]; then
   if [ ! -e ${MON_KEYRING}.seed ]; then
     log "ERROR- ${MON_KEYRING}.seed must exist.  You can extract it from your current monitor by running 'ceph auth get mon. -o $MON_KEYRING' or use a KV Store"
     exit 1
@@ -80,6 +80,8 @@ if [ ! -e "$MON_DATA_DIR/keyring" ]; then
 
   # Prepare the monitor daemon's directory with the map and keyring
   ceph-mon --setuser ceph --setgroup ceph --cluster ${CLUSTER} --mkfs -i ${MON_NAME} --inject-monmap $MONMAP --keyring $MON_KEYRING --mon-data "$MON_DATA_DIR"
+
+  touch ${MON_DATA_DIR}/done
 else
   log "Trying to get the most recent monmap..."
   # Ignore when we timeout, in most cases that means the cluster has no quorum or
