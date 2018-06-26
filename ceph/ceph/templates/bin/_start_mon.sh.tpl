@@ -79,7 +79,7 @@ if [[ (! -e "${MON_DATA_DIR}/keyring") && (! -e "${MON_DATA_DIR}/done") ]]; then
   done
 
   # Prepare the monitor daemon's directory with the map and keyring
-  ceph-mon --setuser ceph --setgroup ceph --cluster ${CLUSTER} --mkfs -i ${MON_NAME} --inject-monmap $MONMAP --keyring $MON_KEYRING --mon-data "$MON_DATA_DIR"
+  ceph-mon --setuser ceph --setgroup ceph --cluster ${CLUSTER} --mkfs -i ${MON_NAME} --monmap $MONMAP --keyring $MON_KEYRING --mon-data "$MON_DATA_DIR"
 
   touch ${MON_DATA_DIR}/done
 else
