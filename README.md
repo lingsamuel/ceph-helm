@@ -1,3 +1,9 @@
+# What's this
+
+This repo remove helm stable folder because it's not a part of ceph.
+
+If you want to use it, you may use `git clone --depth=1`.
+
 # Helm Charts
 
 Use this repository to submit official Charts for Kubernetes Helm. Charts are curated application definitions for Kubernetes Helm. For more information about installing and using Helm, see its
